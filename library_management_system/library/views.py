@@ -12,7 +12,7 @@ class ShowBookView(LoginRequiredMixin, View):
 class IssueBookView(LoginRequiredMixin, View):
     def get(self, request):
 
-        #Check if book is available
+        #Check if book is availablekjef
         # Books.objects.
        
         books = Books.objects.all()
