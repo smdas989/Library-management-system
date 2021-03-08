@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+{% block content %}
+
+
+<h2>Students</h2>
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">User</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    {% for librarian in librarians%}
+   
+    <tbody>
+      <tr>
+        <td><a href={% url 'librarian_details' librarian.id %} >{{ librarian.username }}</a></td>
+       
+      </tr>
+      {% endfor %}  
+  </tbody>
+</table>
+{% endblock %}
+
+

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<style>   
+
+  .main {
+    display: flex;
+    justify-content: space-between;
+    
+  }
+  </style>
+
+<div class="main">
+  <div>
+    <a href="/accounts/login"><img src="{% static '/126-1268265_download-svg-download-png-student-icon-png.png' %}" alt="Italian Trulli" width="200" height="200">
+      <h2>Student</h2></a>
+  </div>
+  <div>
+    <a href="/accounts/login"><img src="{% static '/10218-man-teacher-icon.png'%}" alt="Italian Trulli" width="200" height="200">
+      <h2>Faculty</h2></a>
+  </div>
+  <div>
+    <a href="/accounts/login"><img src="{% static '/370-3701847_library-white-librarian-drawing-librarian-clipart.png'%}" alt="Italian Trulli" width="200" height="200">
+      <h2>Librarian</h2> </a>
+     
+  </div>
+  <div>
+    <a href="/accounts/login"><img src="{% static '/370-3701847_library-white-librarian-drawing-librarian-clipart.png'%}" alt="Italian Trulli" width="200" height="200">
+      <h2>Admin</h2> </a>
+     
+  </div>
+</div>
+{% endblock %}
+<!-- <button type="button" onclick="location.href='/accounts/login'" class="btn btn-danger">Admin</button>        -->

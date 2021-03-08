@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<style>   
+
+  .main {
+    display: flex;
+    justify-content: space-between;
+    
+  }
+  </style>
+
+
+<div class="main">
+  <div>
+    <a href="{% url 'library:show_book' %}"><img src="{% static '/1DDFE633-2B85-468D-B28D05ADAE7D1AD8_source.jpg' %}" alt="Italian Trulli" width="200" height="200">
+      <h2>Books</h2></a>
+  </div>
+  <div>
+    <a href="{% url 'library:show_book_record' %}"><img src="{% static '/old-books-arranged-on-shelf-royalty-free-image-1572384534.jpg'%}" alt="Italian Trulli" width="200" height="200">
+      <h2>Books Record</h2></a>
+  </div>
+  <div>
+    <a href="{% url 'students' %}"><img src="{% static '/126-1268265_download-svg-download-png-student-icon-png.png'%}" alt="Italian Trulli" width="200" height="200">
+      <h2>Student</h2> </a>
+     
+  </div>
+  <div>
+    <a href="{% url 'faculties' %}"><img src="{% static '/129-1290978_teacher-teacher-icon-png.png'%}" alt="Italian Trulli" width="200" height="200">
+      <h2>Faculty</h2> </a>
+     
+  </div>
+  <div>
+    <a href="{% url 'librarians' %}"><img src="{% static '/370-3701847_library-white-librarian-drawing-librarian-clipart.png'%}" alt="Italian Trulli" width="200" height="200">
+      <h2>Librarian</h2> </a>
+     
+  </div>
+
+</div>
+
+{% endblock %}
+<!-- <button type="button" onclick="location.href='/accounts/login'" class="btn btn-danger">Admin</button>        -->

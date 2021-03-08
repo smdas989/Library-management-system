@@ -1,0 +1,82 @@
+{% extends "base.html" %}s
+{% block content %}
+    <div class="container">
+        <form action="{% url 'register'%}" method="POST" >
+            {% csrf_token %}
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Register</div>
+                    <div class="panel-body">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        
+                        <div class="form-group clearfix">
+                            <label class="col-md-4 control-label text-right">Username<span class="text-red">*</span>:</label>
+                            <div class="col-md-6">
+                                {{ form.username }}
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-md-4 control-label text-right">Password<span class="text-red">*</span>:</label>
+                            <div class="col-md-6">
+                                {{ form.password }}
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="{{ form.email.id_for_label }}" class="col-md-4 control-label text-right">First name<span class="text-red">*</span>:</label>
+                            <div class="col-md-6">
+                                {{ form.first_name }}
+                            </div>
+                        </div>
+                        
+                        <div class="form-group clearfix">
+                            <label class="col-md-4 control-label text-right">Last name:<span class="text-red">*</span>:</label>
+                            <div class="col-md-6">
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-md-4 control-label text-right">Department:</label>
+                            <div class="col-md-6">
+                                {{ form.department }}
+                            </div>
+                        </div>
+                       
+                        <div class="form-group clearfix">
+                            <label class="col-md-4 control-label text-right">Contact no:</label>
+                            <div class="col-md-6">
+                                {{ form.contact_no }}
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-md-4 control-label text-right">Profile pic:</label>
+                            <div class="col-md-6">
+                                {{ form.profile_pic }}
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-md-4 control-label text-right">Role:</label>
+                            <div class="col-md-6">
+                                
+                                {{ form.role }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-md-offset-4">
+                            <input type="submit" value="Register" class="btn btn-success">
+                        </div>
+                        <br><br><br>    
+                        <div class="col-md-12 col-md-offset-4">
+                            <div>Already a member</div> <a href="/accounts/login" >Sign in</a> 
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
