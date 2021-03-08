@@ -8,6 +8,10 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import User, Role
 from library.models import BookRecord, Books
+from django.conf import settings 
+from django.core.mail import send_mail 
+
+
 
 class HomePageView(View):
     def get(self, request):
@@ -19,23 +23,32 @@ class RegisterFormView(View):
         return render(request, "registration.html", {"form": form})
 
     def post(self, request, *args, **kwargs):
-        
         form=RegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            
             password = form.cleaned_data['password']
-            abc = form.save(commit=False)
-            abc.set_password(password)
-            abc.save()
-            # if form.cleaned_data['role'] == 'Student':
-            #     return redirect('/student_profile')
-            # elif form.cleaned_data['role'] == 'Faculty':
-            #     return redirect('/faculty_profile')
-            # elif form.cleaned_data['role'] == 'Librarian':
-            #     return redirect('/librarian_profile')
-            # else:
-            #     return redirect('/admin_profile')
-            return redirect('/accounts/login')
+            user = form.save(commit=False)
+            user.set_password(password)
+            user.save()
+
+            #User login
+            login(request,user)
+
+            #Sending email to the user
+            subject = 'You have been registered'
+            message = f'Hi {user.username}, thank you for registering in Library management system.'
+            email_from = settings.EMAIL_HOST_USER 
+            recipient_list = ['smdas989@gmail.com', ] 
+            send_mail( subject, message, email_from, recipient_list, fail_silently=False, ) 
+
+            #redirecting to desired profile
+            if form.cleaned_data['role'].role == 'Student':
+                return redirect('/student_profile')
+            elif form.cleaned_data['role'].role == 'Faculty':
+                return redirect('/faculty_profile')
+            elif form.cleaned_data['role'].role == 'Librarian':
+                return redirect('/librarian_profile')
+            else:
+                return redirect('/admin_page')
         else:
             messages.error(request, 'Username already exists')
         return redirect('/accounts/register')

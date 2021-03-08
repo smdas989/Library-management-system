@@ -1,6 +1,9 @@
 from django.urls import path, include
-from .views import RegisterFormView, HomePageView, LoginView, LogoutView, StudentProfile, AdminProfile, Students, StudentDetailsView, LibrarianProfile, LibrarianDetailsView, FacultyProfile, FacultyDetailsView, Faculties, Librarians
-
+from .views import RegisterFormView, HomePageView, \
+    LoginView, LogoutView, StudentProfile, AdminProfile, \
+    Students, StudentDetailsView, LibrarianProfile, \
+    LibrarianDetailsView, FacultyProfile, \
+    FacultyDetailsView, Faculties, Librarians
 
 
 urlpatterns = [

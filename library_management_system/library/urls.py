@@ -1,7 +1,9 @@
 app_name = 'library'
 
 from django.urls import path
-from .views import IssueBookView, ShowBookView, AddBookView, UpdateBookView, DeleteBookView, ShowBookRecordView
+from .views import IssueBookView, ShowBookView, \
+    AddBookView, UpdateBookView, DeleteBookView, \
+        ShowBookRecordView
 
 urlpatterns = [
     path('show_book/', ShowBookView.as_view(), name='show_book'),
