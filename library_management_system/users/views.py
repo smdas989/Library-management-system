@@ -8,6 +8,7 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import User, Role
 from library.models import BookRecord, Books
+from django.http import JsonResponse
 
 class HomePageView(View):
     def get(self, request):
@@ -136,3 +137,13 @@ class FacultyDetailsView(LoginRequiredMixin, View):
      def get(self, request,id):
         faculty = User.objects.filter(id=id).first()
         return render(request, "faculty_details.html",{'faculty':faculty})
+
+class ValidateUsernameView(View):
+    def post(self, request):
+
+        username = request.POST.get('username', None)
+        print(username)
+        data = {
+            'is_taken': User.objects.filter(username__iexact=username).exists()
+        }
+        return JsonResponse(data)

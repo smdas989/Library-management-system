@@ -1,7 +1,35 @@
-{% extends "base.html" %}s
+{% extends "base.html" %}
+
+{% block javascript %}
+  <script>
+    $("#id_username").change(function () {
+      var username = $(this).val();
+
+      $.ajax({
+        method:'POST',
+        url: "{% url 'validate_username' %}",
+        data: {
+          'username': username,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) {
+            alert("A user with this username already exists.");
+          }
+        }
+      });
+
+    });
+  </script>
+{% endblock %}
+
+
+
 {% block content %}
     <div class="container">
-        <form action="{% url 'register'%}" method="POST" >
+        <form method="POST" >
             {% csrf_token %}
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">

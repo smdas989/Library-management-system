@@ -3,6 +3,7 @@ from django.views import View
 from .models import Books, BookRecord
 from .forms import BookAddForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 
 
 class ShowBookView(LoginRequiredMixin, View):
@@ -66,4 +67,40 @@ class DeleteBookView(LoginRequiredMixin, View):
         except Books.DoesNotExist:
             return redirect('/show_book')
         book.delete()
-        return redirect('/show_book')
+        return redirect(self.request.path_info)
+
+class ShowBookDetailsView(LoginRequiredMixin, View):
+    def get(self, request,id):
+        book = Books.objects.get(id=id)
+        return render(request, "book_details.html",{'book':book})
+
+class IncrementCopyView(LoginRequiredMixin, View):
+    def post(self, request):
+        book_id = request.POST.get('id')
+
+        book = Books.objects.get(id=book_id)
+        book.no_of_copies = book.no_of_copies + 1
+        book.no_of_available_copies = book.no_of_available_copies + 1
+        book.save()
+        data = {
+            'no_of_copies': book.no_of_copies,
+            'no_of_available_copies': book.no_of_available_copies,
+        }
+        return JsonResponse(data)
+
+class DecrementCopyView(LoginRequiredMixin, View):
+    def post(self, request):
+        book_id = request.POST.get('id')
+
+        book = Books.objects.get(id=book_id)
+        if book.no_of_copies == 2:
+            return JsonResponse({"error": "there was an error"})
+        else:
+            book.no_of_copies = book.no_of_copies - 1
+            book.no_of_available_copies = book.no_of_available_copies - 1
+            book.save()
+            data = {
+                'no_of_copies': book.no_of_copies,
+                'no_of_available_copies': book.no_of_available_copies,
+            }
+        return JsonResponse(data)

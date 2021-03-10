@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<style>
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+  }
+  
+  .title {
+    color: grey;
+    font-size: 18px;
+  }
+  
+
+  .inline{
+    display: inline;
+  }
+  .inline1{
+    display: inline;
+  }
+  a {
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+  }
+  
+
+  </style>
+
+
+{% block javascript %}
+    <script>
+      $("#increment").click(function(e) {
+      e.preventDefault();
+      var id = $(this).val();
+  
+      $.ajax({
+          method:'POST',
+          url: "{% url 'library:increment_book' %}",
+          data: { 
+              id: {{ book.id }},
+              csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          success: function(data) {
+            
+            $("#no_of_copies").html( data.no_of_copies );
+            $("#no_of_available_copies").html( data.no_of_available_copies );
+              
+          },
+          error: function(data) {
+              alert('error');
+          }
+      });
+  });
+
+  $("#decrement").click(function(e) {
+      e.preventDefault();
+      var id = $(this).val();
+  
+      $.ajax({
+          method:'POST',
+          url: "{% url 'library:decrement_book' %}",
+          data: { 
+              id: {{ book.id }},
+              csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          success: function(data) {
+            
+            $("#no_of_copies").html( data.no_of_copies );
+            $("#no_of_available_copies").html( data.no_of_available_copies );
+              
+          },
+          error: function(data) {
+              alert('error');
+          }
+      });
+  });
+
+
+
+    </script>
+  {% endblock %}
+
+
+<div class="card">
+ 
+
+  <img src="{{book.book_image.url}}" alt="John" style="width:250px; height:250px;" >
+  <h1>{{book.title}}</h1>
+  <p class="title">Author: {{book.author}}</p>
+  <p>Genre: {{book.genre}}</p>
+  {% if user.is_superuser %}
+  <p class="inline">No of copies:</p>  
+  <button id ="decrement" class="btn btn-primary btn-sm inline" type="button">-</button>
+  <p id='no_of_copies' class="inline" >{{ book.no_of_copies }}</p>
+  <button id ="increment" class="btn btn-primary btn-sm inline" type="button">+</button>
+  {% else %}
+  <p>{{ book.no_of_copies }}</p>
+  {% endif %}
+<br><br>
+  <p class="inline" >No of available copies:</p>
+  <p id='no_of_available_copies' class="inline" > {{book.no_of_available_copies}}</p>
+  
+  <br>
+</div>
+{% endblock %}
+
+
