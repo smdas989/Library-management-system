@@ -3,8 +3,9 @@ $("#increment").click(function(e) {
 e.preventDefault();
     $.ajax({
         method:'POST',
-        url: '/increment_book/',
+        url: '/increment_decrement_book/',
         data: { 
+            func:'increment',
             id: templateVariable.id,
             csrfmiddlewaretoken: templateVariable.csrf_token,
         },
@@ -24,8 +25,9 @@ $("#decrement").click(function(e) {
     e.preventDefault();
     $.ajax({
         method:'POST',
-        url: '/decrement_book/',
+        url: '/increment_decrement_book/',
         data: { 
+            func:'decrement',
             id: templateVariable.id,
             csrfmiddlewaretoken:templateVariable.csrf_token,
         },

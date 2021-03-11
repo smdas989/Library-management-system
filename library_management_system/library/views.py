@@ -74,35 +74,26 @@ class ShowBookDetailsView(LoginRequiredMixin, View):
         book = Books.objects.get(id=id)
         return render(request, "book_details.html",{'book':book})
 
-class IncrementCopyView(LoginRequiredMixin, View):
+class IncrementDecrementCopyView(LoginRequiredMixin, View):
     def post(self, request):
+        choice = request.POST.get('func')
         book_id = request.POST.get('id')
-
         book = Books.objects.get(id=book_id)
-        book.no_of_copies = book.no_of_copies + 1
-        book.no_of_available_copies = book.no_of_available_copies + 1
-        book.save()
-        data = {
-            'no_of_copies': book.no_of_copies,
-            'no_of_available_copies': book.no_of_available_copies,
-        }
-        return JsonResponse(data)
-
-class DecrementCopyView(LoginRequiredMixin, View):
-    def post(self, request):
-        success = 1
-        book_id = request.POST.get('id')
-
-        book = Books.objects.get(id=book_id)
-        if book.no_of_copies == 1:
-            success = False
-        else:
-            book.no_of_copies = book.no_of_copies - 1
-            book.no_of_available_copies = book.no_of_available_copies - 1
+        success=True
+        if choice == 'increment':
+            success = 1
+            book.no_of_copies = book.no_of_copies + 1
+            book.no_of_available_copies = book.no_of_available_copies + 1
             book.save()
-            data = {
-                'success':success,
-                'no_of_copies': book.no_of_copies,
-                'no_of_available_copies': book.no_of_available_copies,
-            }
+        else:
+            if book.no_of_copies == 1:
+                success=False
+            else:
+                book.no_of_copies = book.no_of_copies - 1
+                book.no_of_available_copies = book.no_of_available_copies - 1
+                book.save()
+        data = {
+        'no_of_copies': book.no_of_copies,
+        'no_of_available_copies': book.no_of_available_copies,
+        }
         return JsonResponse(data)
