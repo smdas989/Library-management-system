@@ -1,9 +1,10 @@
 app_name = 'library'
 
 from django.urls import path
+
 from django.conf.urls import url
 from .views import IssueBookView, ShowBookView, AddBookView, \
-     UpdateBookView, DeleteBookView, ShowBookRecordView, ShowBookDetailsView ,\
+    UpdateBookView, DeleteBookView, ShowBookRecordView, ShowBookDetailsView ,\
     IncrementDecrementCopyView
     
 urlpatterns = [

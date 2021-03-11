@@ -1,12 +1,11 @@
 from django.urls import path, include
+
 from django.conf.urls import url
 from .views import RegisterFormView, HomePageView, \
     LoginView, LogoutView, StudentProfile, AdminProfile, \
     Students, StudentDetailsView, LibrarianProfile, \
     LibrarianDetailsView, FacultyProfile, \
     FacultyDetailsView, Faculties, Librarians, ValidateUsernameView
-    # ValidateUsernameView
-
 
 
 urlpatterns = [
