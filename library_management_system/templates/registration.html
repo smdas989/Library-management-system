@@ -1,38 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block javascript %}
-  <script>
-    $("#id_username").keyup(function(){
-       var username=$(this).val();
-       if(username!=""){
-         $.ajax({
-           url:"{% url 'validate_username' %}",
-           type:'GET',
-           data:{username:username},
-         })
-         .done(function(response){
-           if(response=="True"){
-             $(".username_error").remove();
-             $("<span class='username_error' style='font-family: Arial Unicode MS, Lucida Grande; color:red; font-size:13px'> &#10060; Not available</span>").insertAfter("#id_username");
-}
-           else{
-             $(".username_error").remove();
-             $("<span class='username_error' style='font-family: Arial Unicode MS, Lucida Grande; color:green; font-size:15px'> &#10004; Available</span>").insertAfter("#id_username");
-}
-         })
-         .fail(function(){
-           console.log("failed");
-         })
-       }
-       else{
-         $(".username_error").remove();
-       }
-});
-
-  </script>
+<script src="{% static '/js/usernameAvailabilityCheck.js' %}"></script>
 {% endblock %}
-
-
 
 {% block content %}
     <div class="container">

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}  
 {% block content %}
 
 
@@ -33,58 +34,7 @@
   </style>
 
 
-{% block javascript %}
-    <script>
-      $("#increment").click(function(e) {
-      e.preventDefault();
-      var id = $(this).val();
-  
-      $.ajax({
-          method:'POST',
-          url: "{% url 'library:increment_book' %}",
-          data: { 
-              id: {{ book.id }},
-              csrfmiddlewaretoken: '{{ csrf_token }}',
-          },
-          success: function(data) {
-            
-            $("#no_of_copies").html( data.no_of_copies );
-            $("#no_of_available_copies").html( data.no_of_available_copies );
-              
-          },
-          error: function(data) {
-              alert('error');
-          }
-      });
-  });
 
-  $("#decrement").click(function(e) {
-      e.preventDefault();
-      var id = $(this).val();
-  
-      $.ajax({
-          method:'POST',
-          url: "{% url 'library:decrement_book' %}",
-          data: { 
-              id: {{ book.id }},
-              csrfmiddlewaretoken: '{{ csrf_token }}',
-          },
-          success: function(data) {
-            
-            $("#no_of_copies").html( data.no_of_copies );
-            $("#no_of_available_copies").html( data.no_of_available_copies );
-              
-          },
-          error: function(data) {
-              alert('Total no of books can\'t be negative');
-          }
-      });
-  });
-
-
-
-    </script>
-  {% endblock %}
 
 
 <div class="card">
@@ -110,4 +60,14 @@
 </div>
 {% endblock %}
 
+{% block javascript %}
+<script>
+  var templateVariable = {
+
+      id: {{book.id}},
+      csrf_token: '{{csrf_token}}',
+  }
+</script>
+<script src="{% static '/js/incrementDecrement.js' %}"></script>
+{% endblock %}
 
