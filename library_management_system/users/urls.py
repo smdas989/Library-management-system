@@ -5,6 +5,7 @@ from .views import RegisterFormView, HomePageView, \
     Students, StudentDetailsView, LibrarianProfile, \
     LibrarianDetailsView, FacultyProfile, \
     FacultyDetailsView, Faculties, Librarians, ValidateUsernameView
+    # ValidateUsernameView
 
 
 

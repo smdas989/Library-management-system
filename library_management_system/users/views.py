@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import User, Role
 from library.models import BookRecord, Books
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 class HomePageView(View):
     def get(self, request):
@@ -138,12 +139,21 @@ class FacultyDetailsView(LoginRequiredMixin, View):
         faculty = User.objects.filter(id=id).first()
         return render(request, "faculty_details.html",{'faculty':faculty})
 
-class ValidateUsernameView(View):
-    def post(self, request):
+# class ValidateUsernameView(View):
+#     def post(self, request):
 
-        username = request.POST.get('username', None)
-        print(username)
-        data = {
-            'is_taken': User.objects.filter(username__iexact=username).exists()
-        }
-        return JsonResponse(data)
+#         username = request.POST.get('username', None)
+#         print(username)
+#         data = {
+#             'is_taken': User.objects.filter(username__iexact=username).exists()
+#         }
+#         return JsonResponse(data)
+
+class ValidateUsernameView(View):
+    def get(self, request):
+        username=request.GET.get("username")
+        user_obj=User.objects.filter(username=username).exists()
+        if user_obj:
+            return HttpResponse(True)
+        else:
+            return HttpResponse(False)

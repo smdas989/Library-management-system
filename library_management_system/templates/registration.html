@@ -2,26 +2,33 @@
 
 {% block javascript %}
   <script>
-    $("#id_username").change(function () {
-      var username = $(this).val();
+    $("#id_username").keyup(function(){
+       var username=$(this).val();
+       if(username!=""){
+         $.ajax({
+           url:"{% url 'validate_username' %}",
+           type:'GET',
+           data:{username:username},
+         })
+         .done(function(response){
+           if(response=="True"){
+             $(".username_error").remove();
+             $("<span class='username_error' style='font-family: Arial Unicode MS, Lucida Grande; color:red; font-size:13px'> &#10060; Not available</span>").insertAfter("#id_username");
+}
+           else{
+             $(".username_error").remove();
+             $("<span class='username_error' style='font-family: Arial Unicode MS, Lucida Grande; color:green; font-size:15px'> &#10004; Available</span>").insertAfter("#id_username");
+}
+         })
+         .fail(function(){
+           console.log("failed");
+         })
+       }
+       else{
+         $(".username_error").remove();
+       }
+});
 
-      $.ajax({
-        method:'POST',
-        url: "{% url 'validate_username' %}",
-        data: {
-          'username': username,
-          csrfmiddlewaretoken: '{{ csrf_token }}'
-
-        },
-        dataType: 'json',
-        success: function (data) {
-          if (data.is_taken) {
-            alert("A user with this username already exists.");
-          }
-        }
-      });
-
-    });
   </script>
 {% endblock %}
 
