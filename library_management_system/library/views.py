@@ -81,13 +81,17 @@ class IncrementDecrementCopyView(LoginRequiredMixin, View):
         book = Books.objects.get(id=book_id)
         success=True
         if choice == 'increment':
-            success = 1
+            success = True
             book.no_of_copies = book.no_of_copies + 1
             book.no_of_available_copies = book.no_of_available_copies + 1
             book.save()
         else:
-            if book.no_of_copies == 1:
-                success=False
+            if book.no_of_available_copies < 1:
+                if book.no_of_copies < 2:
+                    success=False
+                else:
+                    book.no_of_copies = book.no_of_copies - 1
+                    book.save()
             else:
                 book.no_of_copies = book.no_of_copies - 1
                 book.no_of_available_copies = book.no_of_available_copies - 1
@@ -96,4 +100,5 @@ class IncrementDecrementCopyView(LoginRequiredMixin, View):
         'no_of_copies': book.no_of_copies,
         'no_of_available_copies': book.no_of_available_copies,
         }
+        print(data)
         return JsonResponse(data)
