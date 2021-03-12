@@ -18,14 +18,16 @@
    
     <tbody>
       <tr>
-        <td><a href="{% url 'student_details' bookrecord.borrower_name.id %}" >{{ bookrecord.borrower_name }}</a></td>
+        <td><a href="{% url 'user_details' bookrecord.borrower_name.id %}" >{{ bookrecord.borrower_name }}</a></td>
         <td>{{ bookrecord.borrower_name.role }}</td>
         <td>{{ bookrecord.book.title }}</a></td>
         <td>{{ bookrecord.issue_date }}</td>
         <td>{{ bookrecord.due_date }}</td>
+        {% if bookrecord.return_date %}
         <td>{{ bookrecord.return_date }}</td>
-       
-        
+        {% else %}
+        <td>-</td>
+        {% endif %}
       </tr>
       {% endfor %}  
   </tbody>

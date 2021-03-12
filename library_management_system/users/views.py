@@ -41,14 +41,10 @@ class RegisterFormView(View):
             send_mail( subject, message, email_from, recipient_list, fail_silently=False, ) 
 
             #redirecting to desired profile
-            if form.cleaned_data['role'].role == 'Student':
-                return redirect('/student_profile')
-            elif form.cleaned_data['role'].role == 'Faculty':
-                return redirect('/faculty_profile')
-            elif form.cleaned_data['role'].role == 'Librarian':
-                return redirect('/librarian_profile')
-            else:
+            if form.cleaned_data['role'].role == 'Admin':
                 return redirect('/admin_page')
+            else:
+                return redirect('/user_profile')
         else:
             messages.error(request, 'Username already exists')
         return redirect('/accounts/register')
@@ -66,12 +62,8 @@ class LoginView(View):
             
             if user.role.role == 'Admin':
                 return redirect('/admin_page')
-            elif user.role.role == 'Faculty':
-                return redirect('/faculty_profile')
-            elif user.role.role == 'Librarian':
-                return redirect('/librarian_profile')
             else:
-                return redirect('/student_profile')
+                return redirect('/user_profile')
         else:
             messages.error(request, 'Invalid Credentials')
             return HttpResponseRedirect(settings.LOGIN_URL)
@@ -81,15 +73,16 @@ class LogoutView(View):
         logout(request)
         return redirect('/accounts/login')
 
-class StudentProfile(LoginRequiredMixin, View):
+class UserProfile(LoginRequiredMixin, View):
     def get(self, request):
-
         user = User.objects.get(username=request.user)
-       
+        role = user.role.role
         bookrecords = BookRecord.objects.filter(borrower_name=user)
-        # book_name = Books.objects.get(id=BookRecord.objects.get(borrower_name=user))
-       
-        return render(request, "student_profile.html",{'bookrecords':bookrecords})
+        context = {
+            'bookrecords':bookrecords,
+            'role':role,
+            }
+        return render(request, "user_profile.html",context)
 
 class AdminProfile(LoginRequiredMixin, View):
     def get(self, request):
@@ -113,52 +106,10 @@ class Librarians(LoginRequiredMixin, View):
         librarians = User.objects.filter(role=role)
         return render(request, "librarians.html",{'librarians':librarians})
 
-class StudentDetailsView(LoginRequiredMixin, View):
+class UserDetailsView(LoginRequiredMixin, View):
     def get(self, request,id):
-        student = User.objects.filter(id=id).first()
-        return render(request, "student_details.html",{'student':student})
-
-class LibrarianProfile(LoginRequiredMixin, View):
-    def get(self, request):
-
-        user = User.objects.get(username=request.user)
-       
-        bookrecords = BookRecord.objects.filter(borrower_name=user)
-        # book_name = Books.objects.get(id=BookRecord.objects.get(borrower_name=user))
-       
-        return render(request, "librarian_profile.html",{'bookrecords':bookrecords})
-
-
-class LibrarianDetailsView(LoginRequiredMixin, View):
-    def get(self, request,id):
-        librarian = User.objects.filter(id=id).first()
-        return render(request, "librarian_details.html",{'librarian':librarian})
-
-
-class FacultyProfile(LoginRequiredMixin, View):
-    def get(self, request):
-
-        user = User.objects.get(username=request.user)
-       
-        bookrecords = BookRecord.objects.filter(borrower_name=user)
-        # book_name = Books.objects.get(id=BookRecord.objects.get(borrower_name=user))
-       
-        return render(request, "faculty_profile.html",{'bookrecords':bookrecords})
-
-class FacultyDetailsView(LoginRequiredMixin, View):
-     def get(self, request,id):
-        faculty = User.objects.filter(id=id).first()
-        return render(request, "faculty_details.html",{'faculty':faculty})
-
-# class ValidateUsernameView(View):
-#     def post(self, request):
-
-#         username = request.POST.get('username', None)
-#         print(username)
-#         data = {
-#             'is_taken': User.objects.filter(username__iexact=username).exists()
-#         }
-#         return JsonResponse(data)
+        user = User.objects.filter(id=id).first()
+        return render(request, "user_details.html",{'user':user})
 
 class ValidateUsernameView(View):
     def get(self, request):

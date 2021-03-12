@@ -43,8 +43,8 @@
                 <h4 id="heading_username">Hi {{ user.username }}!</h4>
                     
                 <button type="button" onclick="location.href='{% url 'logout' %}'" class="btn btn-warning">Log Out</button>
-                <button type="button" onclick="location.href='{% url 'student_details' user.id %}'" class="btn btn-warning">Profile</button>
-
+                <button type="button" onclick="location.href='{% url 'user_details' user.id %}'" class="btn btn-warning">Profile</button>
+                
                 {% if user.is_superuser %}
                 <!-- Admin User options -->
                 <button type="button" onclick="location.href='{% url 'library:add_book' %}'" class="btn btn-warning">Add book</button>
@@ -52,12 +52,14 @@
 
                 {% else %}
                 <!-- Normal user options -->
+                <button type="button" onclick="location.href='{% url 'user_profile' %}'" class="btn btn-warning">Issued books</button>
+
                 {% endif %}
                   
                   {% else %}
                   <button type="button" onclick="location.href='/accounts/login'" class="btn btn-warning">Log In</button>
                   <button type="button" onclick="location.href='{% url 'register' %}'" class="btn btn-warning">Register</button>
-
+                  
                 {% endif %}    
                 </div>  
         </div>
