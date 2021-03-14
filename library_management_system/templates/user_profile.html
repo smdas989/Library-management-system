@@ -1,8 +1,12 @@
 {% extends "base.html" %}
+
 {% block content %}
 
 <input type="submit" onclick="location.href='{% url 'library:show_book' %}'" class="btn btn-info" value="Issue new books">
-<input type="submit" class="btn btn-info" value="Return Books">
+
+
+
+<h3>Issued Book record</h3>
 
 <table class="table table-dark">
   <thead>
@@ -11,6 +15,7 @@
       <th scope="col">Issue date</th>
       <th scope="col">Due date</th>
       <th scope="col">Return date</th>
+      <th scope="col">Return book</th>
     </tr>
   </thead>
   <tbody>
@@ -21,9 +26,12 @@
         <td> {{ bookrecord.book.title }}</td>
         <td>{{ bookrecord.issue_date }}</td>
         <td>{{ bookrecord.due_date }}</td>
+        {% if bookrecord.return_date %}
         <td>{{ bookrecord.return_date }}</td>
-       
-        
+        {% else %}
+        <td>-</td>
+        <td><input onclick="location.href='{% url 'library:return_book' bookrecord.id %}'" type="submit"  class="btn btn-info" value="Return Book"></td>
+        {% endif %}
       </tr>
       {% endfor %}  
   </tbody>

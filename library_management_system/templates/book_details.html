@@ -50,7 +50,8 @@
   <p id='no_of_copies' class="inline" >{{ book.no_of_copies }}</p>
   <button id ="increment" class="btn btn-primary btn-sm inline" type="button">+</button>
   {% else %}
-  <p>{{ book.no_of_copies }}</p>
+  <p class="inline">No of copies:</p> 
+  <p id='no_of_copies' class="inline">{{ book.no_of_copies }}</p>
   {% endif %}
 <br><br>
   <p class="inline" >No of available copies:</p>

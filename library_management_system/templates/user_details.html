@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-
-
 <style>
   .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -23,23 +21,14 @@
     font-size: 22px;
     color: black;
   }
-  
-
   </style>
-
-
-
 <div class="card">
- 
-
-  <img src="{{faculty.profile_pic.url}}" alt="John" style="width:250px; height:250px;" >
-  <h1>{{faculty.username}}</h1>
-  <p class="title">Department: {{faculty.department}}</p>
-  <p>First_name: {{faculty.first_name}}</p>
-  <p>Last_name: {{faculty.last_name}}</p>
-  <p>Contact_no: {{faculty.contact_no}}</p>
-  
-
+  <img src="{{user.profile_pic.url}}" alt="John" style="width:250px; height:250px;" >
+  <h1>{{user.username}}</h1>
+  <p class="title">Department: {{user.department}}</p>
+  <p>First_name: {{user.first_name}}</p>
+  <p>Last_name: {{user.last_name}}</p>
+  <p>Contact_no: {{user.contact_no}}</p>
 </div>
 {% endblock %}
 

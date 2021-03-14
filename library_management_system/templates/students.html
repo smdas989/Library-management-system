@@ -17,7 +17,7 @@
    
     <tbody>
       <tr>
-        <td><a href={% url 'student_details' student.id %} >{{ student.username }}</a></td>
+        <td><a href={% url  'user_details' student.id  %} >{{ student.username }}</a></td>
         <td>{{ student.department }}</td>
       </tr>
       {% endfor %}  

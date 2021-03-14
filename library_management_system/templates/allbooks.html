@@ -6,6 +6,15 @@
 
 {% block content %}
 <h2>Available Books</h2><br>
+  {% for message in messages %}
+
+    <div class="alert alert-danger">
+        <a class="close" data-dismiss="alert">×</a>
+
+        {{ message }}
+
+    </div>
+  {% endfor %}
 <table class="table table-dark">
   <thead>
     <tr>
@@ -40,7 +49,7 @@
         <td><button type="button" class="btn btn-success" onclick="location.href='{% url 'library:update_book' book.id  %}'" >Edit</button></td>
         <td><button type="button" class="btn btn-danger" onclick="location.href='{% url 'library:delete_book' book.id  %}'" >Delete</button></td>
         {% else %}
-        <td><input type="button" onclick="location.href='{% url 'library:issue_book;' %}'" class="btn btn-info" value="Issue"></td>
+        <td><input type="button" onclick="location.href='{% url 'library:issue_book' book.id %}'" class="btn btn-info" value="Issue"></td>
         {% endif %}
       </tr>
       {% endfor %}  
