@@ -24,3 +24,5 @@ $("#id_username").keyup(function(){
     $(".username_error").remove();
   }
 });
+
+
