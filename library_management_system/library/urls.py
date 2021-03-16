@@ -5,7 +5,7 @@ from django.urls import path
 from django.conf.urls import url
 from .views import IssueBookView, ShowBookView, AddBookView, \
     UpdateBookView, DeleteBookView, ShowBookRecordView, ShowBookDetailsView ,\
-    IncrementDecrementCopyView, ReturnBookView
+    IncrementDecrementCopyView, ReturnBookView, SearchBookRecordView
     
 urlpatterns = [
     path('show_book/', ShowBookView.as_view(), name='show_book'),
@@ -19,5 +19,6 @@ urlpatterns = [
     path('admin_profile/delete_book/<int:id>/', DeleteBookView.as_view(), name='delete_book'),
     path('increment_decrement_book/', IncrementDecrementCopyView.as_view(), name='increment_decrement_book'),
     path('user_profile/return_book/<int:id>/', ReturnBookView.as_view(), name='return_book'),
+    path('search_record/', SearchBookRecordView.as_view(), name='search_record'),
 
 ]

@@ -7,7 +7,9 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.db.models import Q
 import datetime
-
+from django.template.loader import render_to_string
+from django.core import serializers
+import json
 class ShowBookView(LoginRequiredMixin, View):
     def get(self, request):
         books = Books.objects.all()
@@ -59,7 +61,7 @@ class ReturnBookView(LoginRequiredMixin, View):
         return redirect('/user_profile')
 
 class ShowBookRecordView(LoginRequiredMixin, View):
-    def get(self, request):
+    def get(self, request): 
         bookrecords = BookRecord.objects.all()    
         return render(request, "show_book_record.html",{'bookrecords':bookrecords})
         
@@ -137,5 +139,27 @@ class IncrementDecrementCopyView(LoginRequiredMixin, View):
         'no_of_copies': book.no_of_copies,
         'no_of_available_copies': book.no_of_available_copies,
         }
-        print(data)
+        
         return JsonResponse(data)
+
+class SearchBookRecordView(LoginRequiredMixin, View):
+    def get(self, request):
+        search_item = request.GET.get("user_input")
+        bookrecords = BookRecord.objects.filter(borrower_name__username__icontains=search_item)
+        context=[]
+        for bookrecord in bookrecords:
+            return_date=bookrecord.return_date
+            if bookrecord.return_date is None:
+                return_date = '-'
+            details = {
+                'id':bookrecord.borrower_name.id,
+                'username':bookrecord.borrower_name.username,
+                'role':bookrecord.borrower_name.role.role,
+                'book':bookrecord.book.title,
+                'issue_date':bookrecord.issue_date,
+                'due_date':bookrecord.due_date,
+                'return_date':return_date
+            }
+            context.append(details)
+        return JsonResponse(context,safe=False)  
+        
