@@ -7,12 +7,20 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.db.models import Q
 import datetime
-from django.template.loader import render_to_string
-from django.core import serializers
-import json
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 class ShowBookView(LoginRequiredMixin, View):
     def get(self, request):
         books = Books.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(books, 5)
+        
+        try:
+            books = paginator.page(page)
+        except PageNotAnInteger:
+            books = paginator.page(1)
+        except EmptyPage:
+            books = paginator.page(paginator.num_pages)
         return render(request, "allbooks.html",{'books':books})
 
 class IssueBookView(LoginRequiredMixin, View):

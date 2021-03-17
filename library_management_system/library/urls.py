@@ -12,8 +12,6 @@ urlpatterns = [
     path('show_book_record/', ShowBookRecordView.as_view(), name='show_book_record'),
     path('show_book_details/<int:id>/', ShowBookDetailsView.as_view(), name='show_book_details'),
     path('user_profile/issue_book/<int:id>/', IssueBookView.as_view(), name='issue_book'),
-    # path('student_profile/issue_book/<int:id>/', IssueBookView.as_view(), name='issue_book'),
-
     path('admin_profile/add_book/', AddBookView.as_view(), name='add_book'),
     path('admin_profile/update_book/<int:id>/', UpdateBookView.as_view(), name='update_book'),
     path('admin_profile/delete_book/<int:id>/', DeleteBookView.as_view(), name='delete_book'),

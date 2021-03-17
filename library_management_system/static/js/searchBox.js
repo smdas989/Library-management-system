@@ -4,6 +4,7 @@ const appTable = document.querySelector('.app-table');
 const tbody = document.querySelector('.table-body');
 const noResult = document.querySelector('.no-result');
 tableOutput.style.display = 'none';
+
 $("#search_box").keyup(function(e) {
   var user_input=$(this).val();
   console.log(user_input)
@@ -32,7 +33,7 @@ $("#search_box").keyup(function(e) {
           data.forEach((item)=>{
             tbody.innerHTML+=`
             <tr>
-            <td><a href="{% url 'user_details' ${ item.id } %}">${ item.username } </a></td>
+            <td><a href="/user_details/${ item.id }">${ item.username } </a></td>
             <td> ${ item.role } </td>
             <td> ${ item.book }</td>
             <td> ${ item.issue_date }</td>
