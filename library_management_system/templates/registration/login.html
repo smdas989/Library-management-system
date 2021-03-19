@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% load crispy_forms_tags %}
 <div class="container">
         <form action="{% url 'login_user'%}" method="POST" >
             {% csrf_token %}
@@ -14,24 +15,11 @@
                                 {% endfor %}
                             </ul>
                         {% endif %}
-                        <div class="form-group clearfix">
-                            <label class="col-md-4 control-label text-right">Username<span class="text-red">*</span>:</label>
-                            <div class="col-md-6">
-                                {{ form.username }}
-                            </div>
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="col-md-4 control-label text-right">Password<span class="text-red">*</span>:</label>
-                            <div class="col-md-6">
-                                {{ form.password }}
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-md-offset-4">
-                            <input type="submit" value="Login" class="btn btn-success">
-                        </div>
-                        <div class="col-md-6 col-md-offset-4">
-                          <p>Not a member yet?</p><a href="{% url 'register' %}">Signup</a>
-                        </div>
+                        {{ form.username|as_crispy_field }}
+                        {{ form.password|as_crispy_field }}
+                        <input type="submit" value="Login" class="btn btn-success btn-lg btn-block"><br>
+                        <p>Not a member yet?</p>
+                        <a href="{% url 'register' %}">Signup</a>
                     </div>
                     
                 </div>

@@ -7,7 +7,7 @@ e.preventDefault();
         data: { 
             func:'increment',
             id: templateVariable.id,
-            csrfmiddlewaretoken: templateVariable.csrf_token,
+            csrfmiddlewaretoken:templateVariable.csrf_token
         },
         success: function(data) {
           
@@ -29,7 +29,8 @@ $("#decrement").click(function(e) {
         data: { 
             func:'decrement',
             id: templateVariable.id,
-            csrfmiddlewaretoken:templateVariable.csrf_token,
+            csrfmiddlewaretoken:templateVariable.csrf_token
+
         },
         success: function(data) {
           
