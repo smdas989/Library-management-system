@@ -6,12 +6,11 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import User, Role
+from .models import User, Role, Student, Faculty, Admin, Librarian
 from library.models import BookRecord, Books
 from django.http import JsonResponse
 from django.conf import settings 
 from django.core.mail import send_mail 
-
 
 class HomePageView(View):
     def get(self, request):
@@ -25,28 +24,30 @@ class RegisterFormView(View):
     def post(self, request, *args, **kwargs):
         form=RegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            password = form.cleaned_data['password']
-            user = form.save(commit=False)
-            user.set_password(password)
-            user.save()
+            user = form.save()
+            
+            role = form.cleaned_data['role'].role
+            if role == 'Admin':
+                Admin.objects.create(user=user)
+            elif role == 'Student':
+                Student.objects.create(user=user)
+            elif role == 'Faculty':
+                Faculty.objects.create(user=user)    
+            elif role == 'Librarian':
+                Librarian.objects.create(user=user)                     
+            else:
+                return redirect('/accounts/register')
 
             #User login
             login(request,user)
 
-            #Sending email to the user
-            subject = 'You have been registered'
-            message = f'Hi {user.username}, thank you for registering in Library management system.'
-            email_from = settings.EMAIL_HOST_USER 
-            recipient_list = ['smdas989@gmail.com', ] 
-            send_mail( subject, message, email_from, recipient_list, fail_silently=False, ) 
-
             #redirecting to desired profile
-            if form.cleaned_data['role'].role == 'Admin':
+            if role == 'Admin':
                 return redirect('/admin_page')
             else:
                 return redirect('/user_profile')
         else:
-            messages.error(request, 'Username already exists')
+            messages.error(request, form.errors)
         return redirect('/accounts/register')
         
        
@@ -54,7 +55,7 @@ class LoginView(View):
     def post(self, request):
         username = request.POST['username']
         password = request.POST['password']
-        
+       
         user = authenticate(request,username=username, password=password)
         
         if user is not None:
